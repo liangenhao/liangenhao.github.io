@@ -94,8 +94,8 @@ index_with_subtitle: false
 menu:
   home: / || home
   #about: /about/ || user
-  #tags: /tags/ || tags
-  #categories: /categories/ || th
+  tags: /tags/ || tags
+  categories: /categories/ || th
   archives: /archives/ || archive
   #schedule: /schedule/ || calendar
   #sitemap: /sitemap.xml || sitemap
@@ -104,6 +104,13 @@ menu:
 # Enable/Disable menu icons.
 menu_icons:
   enable: true
+   # Icon Mapping.
+  home: home
+  # about: user
+  categories: th
+  tags: tags
+  archives: archive
+  # commonweal: heartbeat
 
 
 # ---------------------------------------------------------------
@@ -111,9 +118,9 @@ menu_icons:
 # ---------------------------------------------------------------
 
 # Schemes
-scheme: Muse
+#scheme: Muse
 #scheme: Mist
-#scheme: Pisces
+scheme: Pisces
 #scheme: Gemini
 
 
