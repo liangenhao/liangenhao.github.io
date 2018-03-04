@@ -97,25 +97,25 @@ Java 配置通过`@Configuration`和`@Bean`来实现的。
    @Configuration // 1
    @ComponentScan("需要扫描的包") // 2
    public class JavaConfig {
-   	@Bean // 3
-   	public FunctionService functionService(){
-   		return new FunctionService();
-   	}
-   	
-   	@Bean
-   	public UseFunctionService useFunctionService(){
-   		UseFunctionService useFunctionService = new UseFunctionService();
-   		useFunctionService.setFunctionService(functionService()); //4
-   		return useFunctionService;
+     @Bean // 3
+     public FunctionService functionService(){
+       return new FunctionService();
+     }
 
-   	}
+     @Bean
+     public UseFunctionService useFunctionService(){
+       UseFunctionService useFunctionService = new UseFunctionService();
+       useFunctionService.setFunctionService(functionService()); //4
+       return useFunctionService;
 
-   	// @Bean
-   	// public UseFunctionService useFunctionService(FunctionService functionService){//5
-   	// 	UseFunctionService useFunctionService = new UseFunctionService();
-   	// 	useFunctionService.setFunctionService(functionService);
-   	// 	return useFunctionService;
-   	// }
+     }
+
+     // @Bean
+     // public UseFunctionService useFunctionService(FunctionService functionService){//5
+     // 	UseFunctionService useFunctionService = new UseFunctionService();
+     // 	useFunctionService.setFunctionService(functionService);
+     // 	return useFunctionService;
+     // }
    }
    ```
 
@@ -197,16 +197,16 @@ Spring 支持 AspectJ 的注解式切面编程。
       @Component 
       public class LogAspect {
       	
-      	@Pointcut("@annotation(com.wisely.highlight_spring4.ch1.aop.Action)") //2
-      	public void annotationPointCut(){};
-      	
-      	  @After("annotationPointCut()") //3
-      	    public void after(JoinPoint joinPoint) {
-      	        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-      	        Method method = signature.getMethod();
-      	        Action action = method.getAnnotation(Action.class); 
-      	        System.out.println("注解式拦截 " + action.name()); //4
-      	    }
+        @Pointcut("@annotation(com.wisely.highlight_spring4.ch1.aop.Action)") //2
+        public void annotationPointCut(){};
+
+        @After("annotationPointCut()") //3
+        public void after(JoinPoint joinPoint) {
+          MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+          Method method = signature.getMethod();
+          Action action = method.getAnnotation(Action.class); 
+          System.out.println("注解式拦截 " + action.name()); //4
+        }
       }
       ```
 
@@ -233,12 +233,12 @@ Spring 支持 AspectJ 的注解式切面编程。
       @Component 
       public class LogAspect {
       	  
-      	   @Before("execution(* com.wisely.highlight_spring4.ch1.aop.DemoMethodService.*(..))") //1
-      	    public void before(JoinPoint joinPoint){
-      	        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-      	        Method method = signature.getMethod();
-      	        System.out.println("方法规则式拦截,"+method.getName());
-      	    }
+        @Before("execution(* com.wisely.highlight_spring4.ch1.aop.DemoMethodService.*(..))") //1
+        public void before(JoinPoint joinPoint){
+          MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+          Method method = signature.getMethod();
+          System.out.println("方法规则式拦截,"+method.getName());
+        }
       	
       }
       ```
@@ -254,12 +254,12 @@ Spring 支持 AspectJ 的注解式切面编程。
       >   
       >   @Pointcut("execution(* com.wisely.highlight_spring4.ch1.aop.DemoMethodService.*(..))")
       >   public void pointCut(){};
-      > 	  
+      >
       >   @Before("pointCut()") 
       >   public void before(JoinPoint joinPoint){
-      >       MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-      >       Method method = signature.getMethod();
-      >       System.out.println("方法规则式拦截,"+method.getName());
+      >     MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+      >     Method method = signature.getMethod();
+      >     System.out.println("方法规则式拦截,"+method.getName());
       >   }
       > 	
       > }
@@ -312,8 +312,8 @@ book.name=spring boot
 @Getter
 @Setter
 public class DemoService {
-	@Value("demo service") // 注入普通字符串
-    private String another;
+  @Value("demo service") // 注入普通字符串
+  private String another;
 }
 
 
@@ -322,51 +322,51 @@ public class DemoService {
 @PropertySource("classpath:com/wisely/highlight_spring4/ch2/el/test.properties")// 1
 public class ElConfig {
 	
-	@Value("I Love You!") // 注入普通字符串
-    private String normal;
+  @Value("I Love You!") // 注入普通字符串
+  private String normal;
 
-	@Value("#{systemProperties['os.name']}") // 注入操作系统属性
-	private String osName;
+  @Value("#{systemProperties['os.name']}") // 注入操作系统属性
+  private String osName;
+
+  @Value("#{ T(java.lang.Math).random() * 100.0 }") // 注入表达式结果
+  private double randomNumber;
+
+  @Value("#{demoService.another}") // 注入其他Bean的属性
+  private String fromAnother;
+
+  @Value("classpath:com/wisely/highlight_spring4/ch2/el/test.txt") // 注入文件资源
+  private Resource testFile;
+
+  @Value("http://www.baidu.com") // 注入网址资源
+  private Resource testUrl;
+
+  @Value("${book.name}") // 1 注入属性配置文件
+  private String bookName;
+
+  @Autowired
+  private Environment environment; // 2 注入属性配置文件
+
+  @Bean // 1 声明Bean
+  public static PropertySourcesPlaceholderConfigurer propertyConfigure() {
+    return new PropertySourcesPlaceholderConfigurer();
+  }
 	
-	@Value("#{ T(java.lang.Math).random() * 100.0 }") // 注入表达式结果
-    private double randomNumber;
+  public void outputResource() {
+    try {
+      System.out.println(normal);
+      System.out.println(osName);
+      System.out.println(randomNumber);
+      System.out.println(fromAnother);
 
-	@Value("#{demoService.another}") // 注入其他Bean的属性
-	private String fromAnother;
+      System.out.println(IOUtils.toString(testFile.getInputStream()));
+      System.out.println(IOUtils.toString(testUrl.getInputStream()));
+      System.out.println(bookName);
+      System.out.println(environment.getProperty("book.author"));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
-	@Value("classpath:com/wisely/highlight_spring4/ch2/el/test.txt") // 注入文件资源
-	private Resource testFile;
-
-	@Value("http://www.baidu.com") // 注入网址资源
-	private Resource testUrl;
-
-	@Value("${book.name}") // 1 注入属性配置文件
-	private String bookName;
-
-	@Autowired
-	private Environment environment; // 2 注入属性配置文件
-	
-	@Bean // 1 声明Bean
-	public static PropertySourcesPlaceholderConfigurer propertyConfigure() {
-		return new PropertySourcesPlaceholderConfigurer();
-	}
-	
-	public void outputResource() {
-		try {
-			System.out.println(normal);
-			System.out.println(osName);
-			System.out.println(randomNumber);
-			System.out.println(fromAnother);
-			
-			System.out.println(IOUtils.toString(testFile.getInputStream()));
-			System.out.println(IOUtils.toString(testUrl.getInputStream()));
-			System.out.println(bookName);
-			System.out.println(environment.getProperty("book.author"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
+  }
 	
 }
 ```
@@ -391,16 +391,16 @@ public class ElConfig {
 
    ```java
    public class BeanWayService {
-   	  public void init(){
-   	        System.out.println("@Bean-init-method");
-   	    }
-   	    public BeanWayService() {
-   	        super();
-   	        System.out.println("初始化构造函数-BeanWayService");
-   	    }
-   	    public void destroy(){
-   	        System.out.println("@Bean-destory-method");
-   	    }
+     public void init(){
+       System.out.println("@Bean-init-method");
+     }
+     public BeanWayService() {
+       super();
+       System.out.println("初始化构造函数-BeanWayService");
+     }
+     public void destroy(){
+       System.out.println("@Bean-destory-method");
+     }
    }
    ```
 
@@ -411,10 +411,10 @@ public class ElConfig {
    @ComponentScan("com.wisely.highlight_spring4.ch2.prepost")
    public class PrePostConfig {
    	
-   	@Bean(initMethod="init",destroyMethod="destroy") // 1
-   	BeanWayService beanWayService(){
-   		return new BeanWayService();
-   	}
+     @Bean(initMethod="init",destroyMethod="destroy") // 1
+     BeanWayService beanWayService(){
+       return new BeanWayService();
+     }
 
    }
    ```
@@ -431,18 +431,18 @@ public class ElConfig {
 
    ```java
    public class JSR250WayService {
-   	@PostConstruct //1
-       public void init(){
-           System.out.println("jsr250-init-method");
-       }
-       public JSR250WayService() {
-           super();
-           System.out.println("初始化构造方法-JSR250WayService");
-       }
-       @PreDestroy //2
-       public void destroy(){
-           System.out.println("jsr250-destory-method");
-       }
+     @PostConstruct //1
+     public void init(){
+       System.out.println("jsr250-init-method");
+     }
+     public JSR250WayService() {
+       super();
+       System.out.println("初始化构造方法-JSR250WayService");
+     }
+     @PreDestroy //2
+     public void destroy(){
+       System.out.println("jsr250-destory-method");
+     }
 
    }
    ```
@@ -456,10 +456,10 @@ public class ElConfig {
    @Configuration
    @ComponentScan("com.wisely.highlight_spring4.ch2.prepost")
    public class PrePostConfig {
-   	@Bean
-   	JSR250WayService jsr250WayService(){
-   		return new JSR250WayService();
-   	}
+     @Bean
+     JSR250WayService jsr250WayService(){
+       return new JSR250WayService();
+     }
    }
    ```
 
@@ -477,7 +477,7 @@ Profile 为在**不同环境下使用不同的配置**提供了支持。
 @Setter
 public class DemoBean {
   private String content;
-  
+
   public DemoBean(String content) {
     this.content = content;
   }
@@ -492,12 +492,12 @@ public class ProfileConfig {
   @Bean
   @Profile("dev")
   public DemoBean devDemoBean() {
-    	return new DemoBean("from development profile");
+    return new DemoBean("from development profile");
   }
   @Bean
   @Profile("prod")
   public DemoBean devDemoBean() {
-    	return new DemoBean("from production profile");
+    return new DemoBean("from production profile");
   }
 }
 ```
@@ -506,19 +506,19 @@ public class ProfileConfig {
 
 ```java
 public class Main {
-	public static void main(String[] args) {
-      AnnotationConfigApplicationContext context =  new AnnotationConfigApplicationContext();
+  public static void main(String[] args) {
+    AnnotationConfigApplicationContext context =  new AnnotationConfigApplicationContext();
 
-      context.getEnvironment().setActiveProfiles("dev"); //1
-      context.register(ProfileConfig.class);//2
-      context.refresh(); //3
+    context.getEnvironment().setActiveProfiles("dev"); //1
+    context.register(ProfileConfig.class);//2
+    context.refresh(); //3
 
-      DemoBean demoBean = context.getBean(DemoBean.class);
+    DemoBean demoBean = context.getBean(DemoBean.class);
 
-      System.out.println(demoBean.getContent());
+    System.out.println(demoBean.getContent());
 
-      context.close();
-	}
+    context.close();
+  }
 }
 ```
 
