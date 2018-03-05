@@ -548,3 +548,192 @@ Web项目需要设置Servlet的context parameter 中。
 </filter-mapping> 
 ```
 
+## 3 Spring 高级话题
+
+### 3.1 计划任务（定时器）
+
+Spring 的计划任务，**首先通过在配置类注解`@EnableScheduling`来开启对计划任务的支持，然后在要执行计划任务的方法上注解`@Scheduled`，声明这是一个计划任务。**
+
+Spring 通过`@Scheduled`注解支持多种类型的计划任务，包含 cron、fixDelay、fixRate等。
+
+一、计划任务执行类：
+
+```java
+@Service
+public class ScheduledTaskService {
+	
+  private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+
+  @Scheduled(fixedRate = 5000) //1
+  public void reportCurrentTime() {
+    System.out.println("每隔五秒执行一次 " + dateFormat.format(new Date()));
+  }
+
+  @Scheduled(cron = "0 28 11 ? * *"  ) //2
+  public void fixTimeExecution(){
+    System.out.println("在指定时间 " + dateFormat.format(new Date())+"执行");
+  }
+
+}
+```
+
+> 1. 通过`@Scheduled`声明该方法是计划任务，使用`fixedRate`属性每隔固定时间执行。
+> 2. 使用`cron`属性可以按照指定时间执行，本例指的是每天11点28分执行；`cron`是UNIX和类UNIX（Linux）系统下的定时任务。
+
+> `cron`的表达式：
+>
+> cron表达式是一个由7个子表达式组成的字符串。每个子表达式都描述了一个单独的日程细节，这些子表达式用空格分隔，分别表示：
+>
+> `Seconds Minutes Hours Day-of-Month Month Day-of-Week Year（可选）`
+>
+> `秒      分钟    小时    月中的天     月     周中的天    年（可选）`
+>
+> 例子：`"0 0 12 ? * WED"`：表示每周三的中午12：00。
+>
+> 例子：`"0 0 0 0 * ?"`：表示每月1日0点。
+>
+> - `?`：用在 `day-of-month` 及 `day-of-week` 域中，它用来表示“**没有指定值**”；
+>
+>   > `day-of-month` 和 `day-of-week` 只能设置一个值，另一个值写`?`。
+>
+> - `*`：表示域中“**每个**”可能的值。 
+>
+> - `/`： 表示值的增量。
+>
+> - 秒和分域的合法值为 0 到 59。
+>
+> - 小时的合法范围是 0 到 23。
+>
+> - Day-of-Month 中值得合法凡范围是 0到 31，但是需要注意不同的月份中的天数不同。
+>
+> - 月份的合法值是 0 到 11。或者用字符串JAN,FEB MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV 及 DEC 来表示。
+>
+> - Days-of-Week 可以用1 到7 来表示（1=星期日）或者用字符串SUN, MON, TUE, WED,THU, FRI 和 SAT 来表示。
+
+二、配置类：
+
+```java
+@Configuration
+@ComponentScan("com.wisely.highlight_spring4.ch3.taskscheduler")
+@EnableScheduling //1
+public class TaskSchedulerConfig {
+
+}
+```
+
+> 1. 通过`@EnableScheduling`注解开启对计划任务的支持。
+
+### 3.2 @Enable*注解的工作原理
+
+前面提到的注解：
+
+`@EnableAspectJAutoProxy`：开启对AspectJ自动代理的支持。
+
+`@EnableAsync`：开启异步方法的支持。
+
+`@EnableScheduling`：开启计划任务的支持。
+
+后面将提到的注解：
+
+`@EnableWebMvc`：开启WebMVC的配置支持。
+
+`@EnableConfigurationProperties`：开启对`@ConfiguraationProperties`注解配置Bean的支持。
+
+`@EnableJpaRepositories`：开启对Spring Data JPA 的支持。
+
+`@EnableTransactionManagement`：开启注解式事务的支持。
+
+`@EnableCaching`：开启注解式的缓存支持。
+
+通过简单的`@Enable*`来开启意向功能的支持，从而避免自己配置大量的代码。
+
+所有的`@Enable*`注解都有一个`@Import`注解，`@Import`式用来导入配置类的，这也就意味着这些自动开启的实现其实式导入了一些自动配置的Bean。
+
+这些导入的配置方式主要分为以下三种：
+
+1. 直接导入配置类。例如`@EnableScheduling`
+2. 依据条件选择配置类。例如`@EnableAsync`
+3. 动态注册Bean。例如`@EnableAspectJAutoProxy`。
+
+### 3.3 测试
+
+Spring 提供一个`SpringJunit4ClassRunner`类，它提供了Spring TestContext Framework 的功能，通过`@ContextConfiguration`来配置`Application Context`，通过`@ActiveProfiles`确定活动的profile。
+
+在使用了Spring测试后，前面的例子都可以使用Spring测试来验证是否正常运作。
+
+一、引入依赖：需要引入`spring-test`和`junit`的依赖。
+
+```xml
+<!-- Spring test 支持 -->
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-test</artifactId>
+  <version>${spring-framework.version}</version>
+</dependency>
+<dependency>
+  <groupId>junit</groupId>
+  <artifactId>junit</artifactId>
+  <version>4.11</version>
+</dependency>
+```
+
+二、业务代码：
+
+```java
+@Getter
+@Setter
+public class TestBean {
+  private String content;
+
+  public TestBean(String content) {
+    super();
+    this.content = content;
+  }
+
+}
+```
+
+三、配置类
+
+```java
+@Configuration
+public class TestConfig {
+  @Bean
+  @Profile("dev")
+  public TestBean devTestBean() {
+    return new TestBean("from development profile");
+  }
+
+  @Bean
+  @Profile("prod")
+  public TestBean prodTestBean() {
+    return new TestBean("from production profile");
+  }
+
+}
+```
+
+四、测试
+
+```java
+@RunWith(SpringJUnit4ClassRunner.class) 
+@ContextConfiguration(classes = {TestConfig.class}) //1
+@ActiveProfiles("prod") //2
+public class DemoBeanIntegrationTests {
+  @Autowired //3
+  private TestBean testBean;
+
+  @Test //4
+  public void prodBeanShouldInject(){
+    String expected = "from production profile";
+    String actual = testBean.getContent();
+    Assert.assertEquals(expected, actual);
+  }
+
+}
+```
+
+> 1. 用来加载配置类。
+> 2. 用来声明活动的profile。
+> 3. 依赖注入Bean。
+> 4. 测试代码，使用Assert来校验结果和预期的是否一致。
