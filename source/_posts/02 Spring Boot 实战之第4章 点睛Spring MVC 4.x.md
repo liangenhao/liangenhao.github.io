@@ -250,7 +250,7 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
 
 > 1. 重写`addInterceptors`方法，注册拦截器。
 
-### 4.3 快捷的ViewController
+### 4.3 快捷的ViewController（页面跳转）
 
 在`2 Spring MVC 项目搭建`一节中，我们配置页面跳转的方式是：
 
@@ -281,7 +281,100 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
 >
 > `setViewName`：相当于返回值，即视图名称。
 
+## 5 Spring MVC 的高级配置
 
+### 5.1 文件上传配置
+
+Spring MVC通过配置一个`MultipartResolver`来上传文件。 
+
+在Spring的控制器（Controller）中，通过`MultipartFile file`来接收文件，通过`MultipartFile[] files`接收多个文件上传。
+
+一、添加文件上传必须的依赖：
+
+```xml
+<!-- 文件上传必须的依赖 -->
+<dependency>
+  <groupId>commons-fileupload</groupId>
+  <artifactId>commons-fileupload</artifactId>
+  <version>1.3.1</version>
+</dependency>
+<!-- 简化io操作，不是必须的 -->
+<dependency>
+  <groupId>commons-io</groupId>
+  <artifactId>commons-io</artifactId>
+  <version>2.3</version>
+</dependency>
+```
+
+二、新建上传文件的页面:upload.jsp。
+
+```jsp
+<div class="upload">
+  <form action="upload" enctype="multipart/form-data" method="post">
+    <input type="file" name="file"/><br/>
+    <input type="submit" value="上传">
+  </form>
+</div>
+```
+
+> 文件上传的必要条件：
+>
+> 1. form表单的`enctype`必须是`multipart/form-data`。
+> 2. form表单必须是`POST`提交方式。
+> 3. form表单中的输入项中必须有`file`。
+
+三、添加ViewController，直接由Controller跳转到View页面。
+
+```java
+@Configuration
+@EnableWebMvc 
+@ComponentScan("com.wisely.highlight_springmvc4")
+public class MyMvcConfig extends WebMvcConfigurerAdapter {
+  @Override
+  public void addViewControllers(ViewControllerRegistry registry) {
+    registry.addViewController("/toUpload").setViewName("/upload");
+  }
+}
+```
+
+四、配置`MultipartResolver`
+
+```java
+@Configuration
+@EnableWebMvc 
+@ComponentScan("com.wisely.highlight_springmvc4")
+public class MyMvcConfig extends WebMvcConfigurerAdapter {
+  @Bean
+  public MultipartResolver multipartResolver() {
+    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+    multipartResolver.setMaxUploadSize(1000000);
+    return multipartResolver;
+  }
+}
+```
+
+五、编写控制器：
+
+```java
+@Controller
+public class UploadController {
+	
+  @RequestMapping(value = "/upload",method = RequestMethod.POST)
+  public @ResponseBody String upload(MultipartFile file) {//1
+    try {
+      FileUtils.writeByteArrayToFile(new File("e:/upload/"+file.getOriginalFilename()),
+                                     file.getBytes()); //2
+      return "ok";
+    } catch (IOException e) {
+      e.printStackTrace();
+      return "wrong";
+    }
+  }
+}
+```
+
+> 1. 使用`MultipartFile file`接受上传文件。**注意：形参的名称`file`要和`type`为`file`的`input`标签`name`值一致。**
+> 2. 将文件写入磁盘。
 
 
 
