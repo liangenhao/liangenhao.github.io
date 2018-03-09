@@ -9,7 +9,7 @@ tags: [Spring Boot, Spring MVC]
 
 ## 1 Spring MVC概述
 
-一、【MVC和三层架构的关系】
+一、【MVC和三层架构的关系】 
 
 - MVC：Model + View + Controller （数据模型 + 视图 + 控制器）
 
