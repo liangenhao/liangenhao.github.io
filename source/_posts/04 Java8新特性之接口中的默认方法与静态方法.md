@@ -71,7 +71,7 @@ public class AnotherSubClass implements MyInterface, MyOtherInterface {
 
 此时编译器会报错：
 
-![java8interface](_images\java8interface.png)
+![java8interface](04 Java8新特性之接口中的默认方法与静态方法\java8interface.png)
 
 此时必须重写该方法来解决冲突问题。
 
