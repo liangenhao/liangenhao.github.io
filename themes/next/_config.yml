@@ -118,9 +118,9 @@ menu_icons:
 # ---------------------------------------------------------------
 
 # Schemes
-#scheme: Muse
-scheme: Mist
-# scheme: Pisces
+# scheme: Muse
+# scheme: Mist
+scheme: Pisces
 #scheme: Gemini
 
 
@@ -147,11 +147,13 @@ scheme: Mist
 
 social:
   GitHub: https://github.com/liangenhao || github
+  Weibo: https://weibo.com/u/2165970150
 
 social_icons:
   enable: true
   icons_only: false
   transition: false
+  Weibo: weibo
 
 # Blog rolls
 links_icon: link
@@ -388,14 +390,14 @@ changyan:
 # You can get your appid and appkey from https://leancloud.cn
 # more info please open https://valine.js.org
 valine:
-  enable: false
-  appid:  # your leancloud application appid
-  appkey:  # your leancloud application appkey
+  enable: true
+  appid: 6HU1Hs9NgLvqp3IreajdKnai-gzGzoHsz  # your leancloud application appid
+  appkey: 6dtTgWazUc7nT1S5uOn7FgNa  # your leancloud application appkey
   notify: false # mail notifier , https://github.com/xCss/Valine/wiki
-  verify: false # Verification code
+  verify: true # Verification code
   placeholder: Just go go # comment box placeholder
-  avatar: mm # gravatar style
-  guest_info: nick,mail,link # custom comment header
+  avatar: wavatar # gravatar style
+  guest_info: 快来回复呦❛‿˂̵✧ # custom comment header
   pageSize: 10 # pagination size
 
 
