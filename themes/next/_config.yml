@@ -97,6 +97,7 @@ menu:
   tags: /tags/ || tags
   categories: /categories/ || th
   archives: /archives/ || archive
+  链接: /links || link
   #schedule: /schedule/ || calendar
   #sitemap: /sitemap.xml || sitemap
   #commonweal: /404/ || heartbeat
@@ -110,6 +111,7 @@ menu_icons:
   categories: th
   tags: tags
   archives: archive
+  链接: link
   # commonweal: heartbeat
 
 
@@ -147,7 +149,7 @@ scheme: Pisces
 
 social:
   GitHub: https://github.com/liangenhao || github
-  Weibo: https://weibo.com/u/2165970150
+  Weibo: https://weibo.com/u/2165970150 || weibo
 
 social_icons:
   enable: true
