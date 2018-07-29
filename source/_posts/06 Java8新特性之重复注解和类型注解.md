@@ -1,6 +1,6 @@
 ---
 title: 06 Java8新特性之重复注解和类型注解
-date: 2018年5月13日
+date: 2018-05-13
 categories: Java新特性
 tags: [Java8新特性, Annotation]
 ---

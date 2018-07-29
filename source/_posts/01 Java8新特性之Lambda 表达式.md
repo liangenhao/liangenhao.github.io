@@ -1,6 +1,6 @@
 ---
 title: 01 Java8新特性之Lambda 表达式
-date: 2018年3月24日
+date: 2018-03-24
 categories: Java新特性
 tags: [Java8新特性, Lambda 表达式]
 ---

@@ -1,6 +1,6 @@
 ---
 title: 05 Java8新特性之时间日期API
-date: 2018年5月13日
+date: 2018-05-13
 categories: Java新特性
 tags: [Java8新特性, 时间日期API]
 ---

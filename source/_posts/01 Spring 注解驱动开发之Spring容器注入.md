@@ -1,6 +1,6 @@
 ---
 title: 01 Spring 注解驱动开发之Spring容器注入
-date: 2018年5月27日
+date: 2018-05-27
 categories: Spring Boot
 tags: [Spring Boot, Annotation]
 ---

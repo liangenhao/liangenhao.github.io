@@ -1,6 +1,6 @@
 ---
 title: 03 github
-date: 2018年7月29日
+date: 2018-07-28
 categories: Git
 tags: [Git]
 ---

@@ -1,6 +1,6 @@
 ---
 title: 04 Java8新特性之接口中的默认方法与静态方法
-date: 2018年5月5日
+date: 2018-05-05
 categories: Java新特性
 tags: [Java8新特性, interface]
 ---

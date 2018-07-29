@@ -1,6 +1,6 @@
 ---
 title: 04 git flow工作流
-date: 2018年7月29日
+date: 2018-07-29
 categories: Git
 tags: [Git]
 ---

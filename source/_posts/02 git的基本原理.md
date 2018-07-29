@@ -1,6 +1,6 @@
 ---
 title: 02 git的基本原理
-date: 2018年7月29日
+date: 2018-07-27
 categories: Git
 tags: [Git]
 ---

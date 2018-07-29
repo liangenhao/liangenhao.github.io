@@ -1,6 +1,6 @@
 ---
 title: 05 Spring 注解驱动开发之AOP
-date: 2018年6月10日
+date: 2018-06-10
 categories: Spring Boot
 tags: [Spring Boot, Annotation, AOP]
 ---

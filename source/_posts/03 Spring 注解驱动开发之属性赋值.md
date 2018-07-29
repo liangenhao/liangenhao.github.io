@@ -1,6 +1,6 @@
 ---
 title: 03 Spring 注解驱动开发之属性赋值
-date: 2018年5月31日
+date: 2018-05-31
 categories: Spring Boot
 tags: [Spring Boot, Annotation]
 ---

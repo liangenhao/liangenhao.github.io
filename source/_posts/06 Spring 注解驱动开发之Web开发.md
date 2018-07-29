@@ -1,6 +1,6 @@
 ---
 title: 06 Spring 注解驱动开发之Web开发
-date: 2018年6月16日
+date: 2018-06-16
 categories: Spring Boot
 tags: [Spring Boot, Annotation]
 ---

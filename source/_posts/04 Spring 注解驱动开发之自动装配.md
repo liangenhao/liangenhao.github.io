@@ -1,6 +1,6 @@
 ---
 title: 04 Spring 注解驱动开发之自动装配
-date: 2018年6月3日
+date: 2018-06-03
 categories: Spring Boot
 tags: [Spring Boot, Annotation]
 ---

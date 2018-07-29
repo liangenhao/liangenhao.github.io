@@ -1,6 +1,6 @@
 ---
 title: 0102 Spring 注解驱动开发之Bean的生命周期
-date: 2018年5月29日
+date: 2018-05-29
 categories: Spring Boot
 tags: [Spring Boot, Annotation]
 ---
