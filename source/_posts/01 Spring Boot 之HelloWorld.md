@@ -2,6 +2,7 @@
 title: 01 Spring Boot 之HelloWorld
 date: 2018-08-05
 categories: Spring Boot
+tags: [Spring Boot]
 ---
 
 ## 1 Spring Boot 简介
