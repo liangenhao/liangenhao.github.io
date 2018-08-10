@@ -1,6 +1,6 @@
 ---
 title: 02 Spring Boot 之配置文件
-date: 2018年8月7日
+date: 2018-08-07
 categories: Spring Boot
 tags: [Spring Boot]
 ---
