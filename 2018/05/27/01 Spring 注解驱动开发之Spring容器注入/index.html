@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Spring Boot,Annotation," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="在我们使用传统的 Spring MVC + Spring + Mybatis 整合开发时，通常采用的是使用xml配置 + Java注解混合式的开发，即跟业务相关的使用Java注解，配置相关的使用xml文件。这就造成了我们需要写大量的xml配置代码。 在微服务兴起后，Spring Boot 和 Spring Cloud 等微服务框架都摒弃了xml配置文件的配置方式，大量使用Java注解来进行开发。">
+<meta name="keywords" content="Spring Boot,Annotation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="01 Spring 注解驱动开发之Spring容器注入">
+<meta property="og:url" content="http://yoursite.com/2018/05/27/01 Spring 注解驱动开发之Spring容器注入/index.html">
+<meta property="og:site_name" content="enhao&#39;s Notebook">
+<meta property="og:description" content="在我们使用传统的 Spring MVC + Spring + Mybatis 整合开发时，通常采用的是使用xml配置 + Java注解混合式的开发，即跟业务相关的使用Java注解，配置相关的使用xml文件。这就造成了我们需要写大量的xml配置代码。 在微服务兴起后，Spring Boot 和 Spring Cloud 等微服务框架都摒弃了xml配置文件的配置方式，大量使用Java注解来进行开发。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-11T05:31:38.848Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="01 Spring 注解驱动开发之Spring容器注入">
+<meta name="twitter:description" content="在我们使用传统的 Spring MVC + Spring + Mybatis 整合开发时，通常采用的是使用xml配置 + Java注解混合式的开发，即跟业务相关的使用Java注解，配置相关的使用xml文件。这就造成了我们需要写大量的xml配置代码。 在微服务兴起后，Spring Boot 和 Spring Cloud 等微服务框架都摒弃了xml配置文件的配置方式，大量使用Java注解来进行开发。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/27/01 Spring 注解驱动开发之Spring容器注入/"/>
+
+
+
+
+
+  <title>01 Spring 注解驱动开发之Spring容器注入 | enhao's Notebook</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">enhao's Notebook</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Later equals never</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-链接">
+          <a href="/links" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-link"></i> <br />
+            
+            链接
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/27/01 Spring 注解驱动开发之Spring容器注入/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="梁恩浩">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="enhao's Notebook">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">01 Spring 注解驱动开发之Spring容器注入</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-27T00:00:00+08:00">
+                2018-05-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spring-Boot/" itemprop="url" rel="index">
+                    <span itemprop="name">Spring Boot</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/27/01 Spring 注解驱动开发之Spring容器注入/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/05/27/01 Spring 注解驱动开发之Spring容器注入/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/05/27/01 Spring 注解驱动开发之Spring容器注入/" class="leancloud_visitors" data-flag-title="01 Spring 注解驱动开发之Spring容器注入">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 阅读次数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,466
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  11
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在我们使用传统的 Spring MVC + Spring + Mybatis 整合开发时，通常采用的是使用xml配置 + Java注解混合式的开发，即跟业务相关的使用Java注解，配置相关的使用xml文件。这就造成了我们需要写大量的xml配置代码。</p>
+<p>在微服务兴起后，Spring Boot 和 Spring Cloud 等微服务框架都摒弃了xml配置文件的配置方式，大量使用Java注解来进行开发。</p>
+<p>Spring 注解驱动开发分为Spring 容器相关，Spring 原理，Spring MVC。</p>
+<p>首先从Spring容器说起，Spring容器的两个重要概念就是控制反转和依赖注入。Spring将所有的组件都放在了容器中，组件中的关系通过容器来进行自动装配。那如何使用注解的形式进行容器的注入和自动装配？</p>
+<a id="more"></a>
+<h2 id="1-组件注册"><a href="#1-组件注册" class="headerlink" title="1 组件注册"></a>1 组件注册</h2><h3 id="1-1-注入Bean：-Configuration、-Bean"><a href="#1-1-注入Bean：-Configuration、-Bean" class="headerlink" title="1.1 注入Bean：@Configuration、@Bean"></a>1.1 注入Bean：@Configuration、@Bean</h3><h4 id="1-1-1-xml配置方式"><a href="#1-1-1-xml配置方式" class="headerlink" title="1.1.1 xml配置方式"></a>1.1.1 xml配置方式</h4><p>最原始的配置方式，需要将注入的Bean全都配置到Spring的配置文件中。</p>
+<p>首先，我们有一个bean对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Persion</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> String name;</span><br><span class="line">  <span class="keyword">private</span> Integer age;</span><br><span class="line">  <span class="comment">// getter,setter,construction,toString</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>要想将这个Bean对象注入到Spring容器中，如下：</p>
+<p>一、在Spring的配置文件 <code>applicationContext.xml</code> 配置文件中配置bean：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"person"</span> <span class="attr">class</span>=<span class="string">"com.enhao.spring.annotation.bean.Person"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">value</span>=<span class="string">"enhao"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"age"</span> <span class="attr">value</span>=<span class="string">"18"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>二、测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  ApplicationContext applicationContext = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"applicationContext.xml"</span>);</span><br><span class="line">  Person person = (Person) applicationContext.getBean(<span class="string">"person"</span>);</span><br><span class="line">  System.out.println(person);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用<code>ClassPathXmlApplicationContext</code>读取配置文件。</p>
+</blockquote>
+<h4 id="1-1-2-注解驱动配置方式"><a href="#1-1-2-注解驱动配置方式" class="headerlink" title="1.1.2 注解驱动配置方式"></a>1.1.2 注解驱动配置方式</h4><p>注解驱动开发将不再使用<code>applicationContext.xml</code>xml配置文件，使用Java类取代配置文件。</p>
+<p>一、<strong>配置类等同于之前的配置文件</strong>。在配置类上使用<code>@Configuration</code>注解，表明这是一个配置类。</p>
+<p>注入对象时，使用<code>@Bean</code>注解，给容器中注册一个Bean。<strong>方法返回值为Bean的类型，方法名为Bean的id。</strong>也可以使用<code>@Bean</code>注解的value属性设置id。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 配置类 == 配置文件</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainConfig</span>  </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Person <span class="title">person</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Person(<span class="string">"enhao"</span>, <span class="number">18</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>@Bean</code>注解，等价于1.1中的<code>&lt;bean&gt;&lt;/bean&gt;</code>配置方式。</p>
+</blockquote>
+<p>二、测试：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  ApplicationContext applicationContext = <span class="keyword">new</span> AnnotationConfigApplicationContext(MainConfig.class);</span><br><span class="line">  Person person = (Person) applicationContext.getBean(<span class="string">"person"</span>);</span><br><span class="line">  System.out.println(person);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用<code>AnnotationConfigApplicationContext</code>读取配置类。不再是<code>ClassPathXmlApplicationContext</code>了。</p>
+</blockquote>
+<h3 id="1-2-包扫描：-ComponentScan"><a href="#1-2-包扫描：-ComponentScan" class="headerlink" title="1.2 包扫描：@ComponentScan"></a>1.2 包扫描：@ComponentScan</h3><h4 id="1-2-1-xml-注解混合配置方式"><a href="#1-2-1-xml-注解混合配置方式" class="headerlink" title="1.2.1 xml + 注解混合配置方式"></a>1.2.1 xml + 注解混合配置方式</h4><p>在Java5引入注解的特性后，诞生了xml + 注解混合式开发的方式。</p>
+<p>一、在Spring的配置文件 <code>applicationContext.xml</code> 配置文件中开启注解扫描：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.enhao.spring.annotation.service"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>主要标注了<code>@controller</code>、<code>@Service</code>、<code>@Repository</code>、<code>@Component</code>注解中任意一个，都会被扫描自动注入容器中。</p>
+</blockquote>
+<p>二、在需要注入的Bean类上添加<code>@Component</code>注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span>(<span class="string">"personService"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PersonServiceImpl</span> <span class="keyword">implements</span> <span class="title">PersonService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"this is personServiceImpl bean"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>三、测试：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  ApplicationContext applicationContext = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"applicationContext.xml"</span>);</span><br><span class="line">  PersonService personService = (PersonService) applicationContext.getBean(<span class="string">"personService"</span>);</span><br><span class="line">  personService.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="1-2-2-注解驱动配置方式"><a href="#1-2-2-注解驱动配置方式" class="headerlink" title="1.2.2 注解驱动配置方式"></a>1.2.2 注解驱动配置方式</h4><p>一、注解驱动的配置包扫描的方式是直接在配置类上使用<code>@ComponentScan</code>注解即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan</span>(&#123;<span class="string">"com.enhao.spring.annotation"</span>&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainConfig</span>  </span>&#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>二、在需要注入的Bean类上添加<code>@controller</code>、<code>@Service</code>、<code>@Repository</code>、<code>@Component</code>注解中任意一个即可。</p>
+<p><code>@ComponentScan</code>的属性：</p>
+<ul>
+<li><code>value</code>：指定要扫描的包。</li>
+<li><code>excludeFilters</code>：指定扫描的时候按照什么规则排除哪些组件。值是<code>Filter[]</code>。<ul>
+<li><code>@Filter</code>注解：<code>type</code>属性表示指定排除的规则：<strong>按照注解排除，按照AspectJ表达式排除，按照给定的类型排除、按照自定义排除和按照正则排除</strong>；<code>classes</code>属性表示根据排除规则需要排除的类。</li>
+</ul>
+</li>
+<li><code>includeFilters</code>：指定扫描的时候只需要包含哪些组件。值为<code>Filter[]</code>。注意：如果使用<code>includeFilters</code>，必须关闭默认的过滤规则(默认过滤规则是包含所有)，将<code>useDefaultFilters</code>设置为false。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ComponentScan</span>(value = <span class="string">"com.enhao.spring.annotation"</span>, excludeFilters = &#123;</span><br><span class="line">        <span class="meta">@ComponentScan</span>.Filter(type = FilterType.ANNOTATION, classes = &#123;Controller.class, Service.class&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>FilterType.ANNOTATION</code>使用按照注解排除的规则，排除标注了<code>@Controller</code>和<code>@Service</code>注解的Bean。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ComponentScan</span>(value = <span class="string">"com.enhao.spring.annotation"</span>, useDefaultFilters = <span class="keyword">false</span>, includeFilters = &#123;</span><br><span class="line">        <span class="meta">@ComponentScan</span>.Filter(type = FilterType.ANNOTATION, classes = &#123;Controller.class&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用按照注解的规则，只包含使用了<code>@Controller</code>注解的Bean。</p>
+<p>注意：使用<code>includeFilters</code>时，必须将<code>useDefaultFilters</code>的值设置为false。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ComponentScan</span>(value = <span class="string">"com.enhao.spring.annotation"</span>, useDefaultFilters = <span class="keyword">false</span>, includeFilters = &#123;</span><br><span class="line">        <span class="meta">@ComponentScan</span>.Filter(type = FilterType.ANNOTATION, classes = &#123;Controller.class&#125;),</span><br><span class="line">        <span class="meta">@ComponentScan</span>.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = &#123;PersonService.class&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>FilterType.ASSIGNABLE_TYPE</code>包含给定的类型，这里会包含是<code>PersonService</code>类型的Bean。</p>
+</blockquote>
+<p>由于java8引入了重复注解的概念（具体可以查看Java8新特性），所有可以写多个<code>@ComponentScan</code>注解来指定不同的规则。</p>
+<p>如果是Java8以前的版本，可以使用<code>@ComponentScans</code>注解，该注解里可以写多个<code>@ComponentScan</code>注解。</p>
+<h3 id="1-3-作用域：-Scope"><a href="#1-3-作用域：-Scope" class="headerlink" title="1.3 作用域：@Scope"></a>1.3 作用域：@Scope</h3><h4 id="1-3-1-Scope和-Bean一起使用"><a href="#1-3-1-Scope和-Bean一起使用" class="headerlink" title="1.3.1 @Scope和@Bean一起使用"></a>1.3.1 @Scope和@Bean一起使用</h4><p>Spring 的Bean默认都是单实例的。可用使用<code>@Scope</code>来指定Bean的作用域。</p>
+<p>通过<code>@Scope</code>注解的<code>value</code>属性来指定Bean的作用域，值有四种：<code>singleton</code>(默认值)、<code>prototype</code>、<code>request</code>、<code>session</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ScopeConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@Scope</span>(<span class="string">"prototype"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Person <span class="title">person2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Person(<span class="string">"enhao"</span>, <span class="number">19</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>等同于<code>&lt;bean scope=&quot;&quot;&gt;&lt;/bean&gt;</code></p>
+</blockquote>
+<p>注意：</p>
+<p>在默认单实例时，在Spring容器启动时就会调用方法将Bean对象放到容器中。以后每次获取都是直接从容器中获取的。</p>
+<p>在多实例时，Spring 容器启动时并不会区创建多实例Bean的对象。多实例Bean对象是在调用的时候才放到容器中的，而且是每调用一次就向容器中放入一个对象。</p>
+<h4 id="1-3-2-Scope和-Component一起使用"><a href="#1-3-2-Scope和-Component一起使用" class="headerlink" title="1.3.2 @Scope和@Component一起使用"></a>1.3.2 @Scope和@Component一起使用</h4><p>在使用包扫描的时候，如果要指定Bean的作用域，可以和<code>@Component</code>、<code>@Service</code>、<code>@Repository</code>、<code>@Controller</code>等注解一起使用，使用方式和上面一样。</p>
+<h3 id="1-4-懒加载：-Lazy"><a href="#1-4-懒加载：-Lazy" class="headerlink" title="1.4 懒加载：@Lazy"></a>1.4 懒加载：@Lazy</h3><blockquote>
+<p><strong>懒加载只针对于单实例的Bean</strong>。因为单实例的Bean是在容器启动的时候就加载的。</p>
+</blockquote>
+<p>懒加载：容器启动的时候不创建对象。在第一次使用（获取）Bean的时候创建对象，并初始化。</p>
+<h4 id="1-4-1-Lazy和-Bean一起使用"><a href="#1-4-1-Lazy和-Bean一起使用" class="headerlink" title="1.4.1 @Lazy和@Bean一起使用"></a>1.4.1 @Lazy和@Bean一起使用</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ScopeConfig</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Bean</span></span><br><span class="line">  <span class="meta">@Lazy</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> Person <span class="title">person2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Person(<span class="string">"enhao"</span>, <span class="number">19</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="1-4-2-Lazy和-Component一起使用"><a href="#1-4-2-Lazy和-Component一起使用" class="headerlink" title="1.4.2 @Lazy和@Component一起使用"></a>1.4.2 @Lazy和@Component一起使用</h4><p>在使用包扫描的时候，如果要指定Bean的懒加载，可以和<code>@Component</code>、<code>@Service</code>、<code>@Repository</code>、<code>@Controller</code>等注解一起使用，使用方式和上面一样。</p>
+<h3 id="1-5-条件注解：-Conditional"><a href="#1-5-条件注解：-Conditional" class="headerlink" title="1.5 条件注解：@Conditional"></a>1.5 条件注解：@Conditional</h3><p>作用：按照一定的条件进行判断，满足条件给容器注册Bean。</p>
+<p><code>@Conditional</code>注解的<code>value</code>属性是继承了<code>Condition</code>的Class对象。因此需要实现<code>Condition</code>接口。</p>
+<p>例子：判断当前的系统，如果是linux系统，则创建Persion3对象。如果是Windows系统则创建Person4对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 判断是否是windows系统</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WindowsCondition</span> <span class="keyword">implements</span> <span class="title">Condition</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">matches</span><span class="params">(ConditionContext conditionContext, AnnotatedTypeMetadata annotatedTypeMetadata)</span> </span>&#123;</span><br><span class="line">        Environment environment = conditionContext.getEnvironment();</span><br><span class="line">        String osName = environment.getProperty(<span class="string">"os.name"</span>);</span><br><span class="line">        <span class="keyword">if</span> (osName.contains(<span class="string">"Windows"</span>)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 判断是否是linux系统</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinuxCondition</span> <span class="keyword">implements</span> <span class="title">Condition</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">matches</span><span class="params">(ConditionContext conditionContext, AnnotatedTypeMetadata annotatedTypeMetadata)</span> </span>&#123;</span><br><span class="line">        Environment environment = conditionContext.getEnvironment();</span><br><span class="line">        String osName = environment.getProperty(<span class="string">"os.name"</span>);</span><br><span class="line">        <span class="keyword">if</span> (osName.contains(<span class="string">"linux"</span>)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 配置类</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ScopeConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Conditional</span>(LinuxCondition.class)</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Person <span class="title">person3</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Person(<span class="string">"enhao1"</span>, <span class="number">20</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Conditional</span>(WindowsCondition.class)</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Person <span class="title">person4</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Person(<span class="string">"enhao2"</span>, <span class="number">21</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-6-快速注册组件：-Import"><a href="#1-6-快速注册组件：-Import" class="headerlink" title="1.6 快速注册组件：@Import"></a>1.6 快速注册组件：@Import</h3><h4 id="1-6-1-直接导入配置类或普通类"><a href="#1-6-1-直接导入配置类或普通类" class="headerlink" title="1.6.1 直接导入配置类或普通类"></a>1.6.1 直接导入配置类或普通类</h4><p>@Import注解支持导入配置类，也支持导入普通的java类，并将其声明成一个bean。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@Import</span>(&#123;Color.class&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainConfig2</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注入Bean的id默认是组件的全类名。</p>
+</blockquote>
+<h4 id="1-6-2-使用ImportSelector"><a href="#1-6-2-使用ImportSelector" class="headerlink" title="1.6.2 使用ImportSelector"></a>1.6.2 使用ImportSelector</h4><p>使用<code>ImportSelector</code>导入选择器接口。接口里的<code>selectImports</code>方法的返回值<strong>返回的是需要导入的组件的全类名数组。</strong></p>
+<p>一、自定义导入选择器：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyImportSelector</span> <span class="keyword">implements</span> <span class="title">ImportSelector</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 参数AnnotationMetadata：当前标注@Import注解的类的所有注解信息</span></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> String[] selectImports(AnnotationMetadata annotationMetadata) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回值不要返回null，否则会报空指针异常。</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> String[]&#123;<span class="string">"com.enhao.spring.annotation.bean.Blue"</span>,</span><br><span class="line">                        <span class="string">"com.enhao.spring.annotation.bean.Yellow"</span>&#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>二、在<code>@Import</code>注解中引入自定义的导入选择器。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@Import</span>(&#123;Color.class, MyImportSelector.class&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainConfig2</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="1-6-3-使用ImportBeanDefinitionRegistrar"><a href="#1-6-3-使用ImportBeanDefinitionRegistrar" class="headerlink" title="1.6.3 使用ImportBeanDefinitionRegistrar"></a>1.6.3 使用ImportBeanDefinitionRegistrar</h4><p>使用<code>ImportBeanDefinitionRegistrar</code>接口，实现<code>registerBeanDefinitions</code>方法，在容器中自己添加组件。</p>
+<p>一、自定义一个<code>ImportBeanDefinitionRegistrar</code>实现类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyImportBeanDefinitionRegistrar</span> <span class="keyword">implements</span> <span class="title">ImportBeanDefinitionRegistrar</span> </span>&#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 把所需要添加到容器中的bean，通过BeanDefinitionRegistry注册进来</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> annotationMetadata 当前标注<span class="doctag">@Import</span>注解的类的所有注解信息</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> beanDefinitionRegistry BeanDefinitionRegistry Bean定义的注册类</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerBeanDefinitions</span><span class="params">(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry beanDefinitionRegistry)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">boolean</span> blue = beanDefinitionRegistry.containsBeanDefinition(<span class="string">"com.enhao.spring.annotation.bean.Blue"</span>);</span><br><span class="line">    <span class="keyword">boolean</span> yellow = beanDefinitionRegistry.containsBeanDefinition(<span class="string">"com.enhao.spring.annotation.bean.Yellow"</span>);</span><br><span class="line">    <span class="keyword">if</span> (blue &amp;&amp; yellow) &#123;</span><br><span class="line">      RootBeanDefinition beanDefinition = <span class="keyword">new</span> RootBeanDefinition(Rainbow.class);</span><br><span class="line">      <span class="comment">// 注册bean</span></span><br><span class="line">      beanDefinitionRegistry.registerBeanDefinition(<span class="string">"rainbow"</span>, beanDefinition);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>二、在<code>@Import</code>中使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@Import</span>(&#123;MyImportSelector.class, MyImportBeanDefinitionRegistrar.class&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ScopeConfig</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-7-使用FactoryBean注册组件"><a href="#1-7-使用FactoryBean注册组件" class="headerlink" title="1.7 使用FactoryBean注册组件"></a>1.7 使用FactoryBean注册组件</h3><p>一、自定义一个FactoryBean实现类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ColorFactoryBean</span> <span class="keyword">implements</span> <span class="title">FactoryBean</span>&lt;<span class="title">Color</span>&gt; </span>&#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">       *</span></span><br><span class="line"><span class="comment">       * <span class="doctag">@return</span> 返回一个Color对象，这个对象会添加到容器中</span></span><br><span class="line"><span class="comment">       * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment">       */</span></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> Color <span class="title">getObject</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"this is a color factory bean"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Color();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 返回对象类型</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> Class&lt;?&gt; getObjectType() &#123;</span><br><span class="line">    <span class="keyword">return</span> Color.class;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 是单例吗</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> true - 是单例模式 false - 是多例模式</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isSingleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>二、在配置类中配置工厂类Bean：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ColorFactoryBean <span class="title">colorFactoryBean</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> ColorFactoryBean();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>默认获取到的是工厂Bean调用<code>GetObject</code>创建的对象，这里是<code>Color</code>。</p>
+<p>要获取工厂Bean的本身，我们需要给id前面加一个<code>&amp;</code>标识。</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring-Boot/" rel="tag"><i class="fa fa-tag"></i> Spring Boot</a>
+          
+            <a href="/tags/Annotation/" rel="tag"><i class="fa fa-tag"></i> Annotation</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/13/06 Java8新特性之重复注解和类型注解/" rel="next" title="06 Java8新特性之重复注解和类型注解">
+                <i class="fa fa-chevron-left"></i> 06 Java8新特性之重复注解和类型注解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/29/02 Spring 注解驱动开发之Bean的生命周期/" rel="prev" title="0102 Spring 注解驱动开发之Bean的生命周期">
+                0102 Spring 注解驱动开发之Bean的生命周期 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">梁恩浩</p>
+              <p class="site-description motion-element" itemprop="description">A Java Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/liangenhao" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/u/2165970150" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-组件注册"><span class="nav-number">1.</span> <span class="nav-text">1 组件注册</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-注入Bean：-Configuration、-Bean"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 注入Bean：@Configuration、@Bean</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-1-xml配置方式"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1.1 xml配置方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-2-注解驱动配置方式"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.1.2 注解驱动配置方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-包扫描：-ComponentScan"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 包扫描：@ComponentScan</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-xml-注解混合配置方式"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.2.1 xml + 注解混合配置方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-注解驱动配置方式"><span class="nav-number">1.2.2.</span> <span class="nav-text">1.2.2 注解驱动配置方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-作用域：-Scope"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 作用域：@Scope</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-1-Scope和-Bean一起使用"><span class="nav-number">1.3.1.</span> <span class="nav-text">1.3.1 @Scope和@Bean一起使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-2-Scope和-Component一起使用"><span class="nav-number">1.3.2.</span> <span class="nav-text">1.3.2 @Scope和@Component一起使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-懒加载：-Lazy"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 懒加载：@Lazy</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-1-Lazy和-Bean一起使用"><span class="nav-number">1.4.1.</span> <span class="nav-text">1.4.1 @Lazy和@Bean一起使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-2-Lazy和-Component一起使用"><span class="nav-number">1.4.2.</span> <span class="nav-text">1.4.2 @Lazy和@Component一起使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-条件注解：-Conditional"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 条件注解：@Conditional</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-快速注册组件：-Import"><span class="nav-number">1.6.</span> <span class="nav-text">1.6 快速注册组件：@Import</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-1-直接导入配置类或普通类"><span class="nav-number">1.6.1.</span> <span class="nav-text">1.6.1 直接导入配置类或普通类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-2-使用ImportSelector"><span class="nav-number">1.6.2.</span> <span class="nav-text">1.6.2 使用ImportSelector</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-3-使用ImportBeanDefinitionRegistrar"><span class="nav-number">1.6.3.</span> <span class="nav-text">1.6.3 使用ImportBeanDefinitionRegistrar</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-7-使用FactoryBean注册组件"><span class="nav-number">1.7.</span> <span class="nav-text">1.7 使用FactoryBean注册组件</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">梁恩浩</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = '快来回复呦❛‿˂̵✧';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: true,
+        notify: false,
+        appId: '6HU1Hs9NgLvqp3IreajdKnai-gzGzoHsz',
+        appKey: '6dtTgWazUc7nT1S5uOn7FgNa',
+        placeholder: 'Just go go',
+        avatar:'wavatar',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("6HU1Hs9NgLvqp3IreajdKnai-gzGzoHsz", "6dtTgWazUc7nT1S5uOn7FgNa");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>
