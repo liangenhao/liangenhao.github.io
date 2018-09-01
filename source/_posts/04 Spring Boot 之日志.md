@@ -1,13 +1,9 @@
 ---
-title: 04 Spring Boot 1.x 之日志
+title: 04 Spring Boot 之日志
 date: 2018-09-01
 categories: Spring Boot
 tags: [Spring Boot]
 ---
-
-
-
-[TOC]
 
 ## 1 日志框架
 
@@ -22,6 +18,8 @@ tags: [Spring Boot]
 日志实现：`Log4J`和`Logback`是一个写的框架。`Log4J2`是Apache出的。
 
 **Spring Boot 选用的是`SLF4J`和`Logback`。**
+
+<!-- more -->
 
 ## 2 SLF4J 使用
 
