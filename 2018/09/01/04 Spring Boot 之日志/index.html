@@ -86,21 +86,21 @@
 
 
 
-<meta name="description" content="[TOC] 1 日志框架   日志门面 （日志抽象层） 日志实现     JCL(Jakarta Commons Logging)、SLF4j(Simple Logging Facade for Java)、jboss-logging Log4j、JUL(java.util.logging)、Log4j2、 Logback    左边选一个抽象层，右边选一个实现： 最常用的日志门面：SLF4J。">
+<meta name="description" content="1 日志框架   日志门面 （日志抽象层） 日志实现     JCL(Jakarta Commons Logging)、SLF4j(Simple Logging Facade for Java)、jboss-logging Log4j、JUL(java.util.logging)、Log4j2、 Logback    左边选一个抽象层，右边选一个实现： 最常用的日志门面：SLF4J。 日志实现：L">
 <meta name="keywords" content="Spring Boot">
 <meta property="og:type" content="article">
-<meta property="og:title" content="04 Spring Boot 1.x 之日志">
+<meta property="og:title" content="04 Spring Boot 之日志">
 <meta property="og:url" content="http://yoursite.com/2018/09/01/04 Spring Boot 之日志/index.html">
 <meta property="og:site_name" content="enhao&#39;s Notebook">
-<meta property="og:description" content="[TOC] 1 日志框架   日志门面 （日志抽象层） 日志实现     JCL(Jakarta Commons Logging)、SLF4j(Simple Logging Facade for Java)、jboss-logging Log4j、JUL(java.util.logging)、Log4j2、 Logback    左边选一个抽象层，右边选一个实现： 最常用的日志门面：SLF4J。">
+<meta property="og:description" content="1 日志框架   日志门面 （日志抽象层） 日志实现     JCL(Jakarta Commons Logging)、SLF4j(Simple Logging Facade for Java)、jboss-logging Log4j、JUL(java.util.logging)、Log4j2、 Logback    左边选一个抽象层，右边选一个实现： 最常用的日志门面：SLF4J。 日志实现：L">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/09/01/04%20Spring%20Boot%20之日志/slf4J.png">
 <meta property="og:image" content="http://yoursite.com/2018/09/01/04%20Spring%20Boot%20之日志/legacy.png">
 <meta property="og:image" content="http://yoursite.com/2018/09/01/04%20Spring%20Boot%20之日志/spring-boot-starter-logging.png">
-<meta property="og:updated_time" content="2018-09-01T07:51:21.968Z">
+<meta property="og:updated_time" content="2018-09-01T07:57:04.530Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="04 Spring Boot 1.x 之日志">
-<meta name="twitter:description" content="[TOC] 1 日志框架   日志门面 （日志抽象层） 日志实现     JCL(Jakarta Commons Logging)、SLF4j(Simple Logging Facade for Java)、jboss-logging Log4j、JUL(java.util.logging)、Log4j2、 Logback    左边选一个抽象层，右边选一个实现： 最常用的日志门面：SLF4J。">
+<meta name="twitter:title" content="04 Spring Boot 之日志">
+<meta name="twitter:description" content="1 日志框架   日志门面 （日志抽象层） 日志实现     JCL(Jakarta Commons Logging)、SLF4j(Simple Logging Facade for Java)、jboss-logging Log4j、JUL(java.util.logging)、Log4j2、 Logback    左边选一个抽象层，右边选一个实现： 最常用的日志门面：SLF4J。 日志实现：L">
 <meta name="twitter:image" content="http://yoursite.com/2018/09/01/04%20Spring%20Boot%20之日志/slf4J.png">
 
 
@@ -137,7 +137,7 @@
 
 
 
-  <title>04 Spring Boot 1.x 之日志 | enhao's Notebook</title>
+  <title>04 Spring Boot 之日志 | enhao's Notebook</title>
   
 
 
@@ -335,7 +335,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">04 Spring Boot 1.x 之日志</h1>
+          <h1 class="post-title" itemprop="name headline">04 Spring Boot 之日志</h1>
         
 
         <div class="post-meta">
@@ -397,7 +397,7 @@
 
           
           
-             <span id="/2018/09/01/04 Spring Boot 之日志/" class="leancloud_visitors" data-flag-title="04 Spring Boot 1.x 之日志">
+             <span id="/2018/09/01/04 Spring Boot 之日志/" class="leancloud_visitors" data-flag-title="04 Spring Boot 之日志">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -427,7 +427,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,147
+                  1,146
                 </span>
               
 
@@ -464,8 +464,7 @@
       
 
       
-        <p>[TOC]</p>
-<h2 id="1-日志框架"><a href="#1-日志框架" class="headerlink" title="1 日志框架"></a>1 日志框架</h2><table>
+        <h2 id="1-日志框架"><a href="#1-日志框架" class="headerlink" title="1 日志框架"></a>1 日志框架</h2><table>
 <thead>
 <tr>
 <th>日志门面 （日志抽象层）</th>
@@ -483,6 +482,7 @@
 <p>最常用的日志门面：<code>SLF4J</code>。</p>
 <p>日志实现：<code>Log4J</code>和<code>Logback</code>是一个写的框架。<code>Log4J2</code>是Apache出的。</p>
 <p><strong>Spring Boot 选用的是<code>SLF4J</code>和<code>Logback</code>。</strong></p>
+<a id="more"></a>
 <h2 id="2-SLF4J-使用"><a href="#2-SLF4J-使用" class="headerlink" title="2 SLF4J 使用"></a>2 SLF4J 使用</h2><p><img src="/2018/09/01/04 Spring Boot 之日志/slf4J.png" alt="slf4J"></p>
 <p>日志记录方法的调用，不应该直接调用日志的实现类，而是调用日志抽象层的方法（和JDBC一样，面向接口编程）。</p>
 <p>需要给项目里导入<code>slf4J</code>和<code>logback</code>的jar。</p>
