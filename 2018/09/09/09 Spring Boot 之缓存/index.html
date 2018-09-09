@@ -97,7 +97,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/09/09/09%20Spring%20Boot%20之缓存/Java%20Caching%20核心接口.png">
 <meta property="og:image" content="http://yoursite.com/2018/09/09/09%20Spring%20Boot%20之缓存/CacheManager和Cache.png">
 <meta property="og:image" content="http://yoursite.com/2018/09/09/09%20Spring%20Boot%20之缓存/Cache%20SpEL%20available%20metadata.png">
-<meta property="og:updated_time" content="2018-09-09T08:02:57.995Z">
+<meta property="og:updated_time" content="2018-09-09T08:05:52.920Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="09 Spring Boot 之缓存">
 <meta name="twitter:description" content="1 Java缓存规范 JSR107Java Caching 定义了5个核心接口，分别是CachingProvider、CacheManager、Cache、Entry和Expiry。  CachingProvider：缓存提供者。定义了创建、配置、获取、管理和控制多个CacheManager。一个应用可以在运行期访问多个CachingProvider。 CacheManager：缓存管理器。定义了">
@@ -473,6 +473,7 @@
 <li><code>Expiry</code>：有效期。每一个存储在<code>Cache</code>中的条目有一个定义的有效期。一旦超过这个有效期，条目为过期的状态。一旦过期，条目将不可访问、更新和删除。缓存有效期可以通过<code>ExpiryPolicy</code>设置。</li>
 </ul>
 <p><img src="/2018/09/09/09 Spring Boot 之缓存/Java Caching 核心接口.png" alt="image-20180902163332355"></p>
+<a id="more"></a>
 <p>想要使用JSR107规范，需要引入<code>cache-api</code>依赖：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.cache<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>cache-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h2 id="2-Spring-缓存抽象"><a href="#2-Spring-缓存抽象" class="headerlink" title="2 Spring 缓存抽象"></a>2 Spring 缓存抽象</h2><p>Spring 从3.1开始定义了<code>org.springframework.cache.Cache</code>和<code>org.springframework.cache.CacheManager</code>接口来统一不同的缓存技术。并<strong>支持使用<code>JCache</code>(JSR-107)</strong>注解简化开发。</p>
