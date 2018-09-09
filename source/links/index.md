@@ -5,10 +5,18 @@ date: 2018-06-17 23:09:00
 
 ## 博客链接
 
-
+- [Klib、iPic、iText、iHosts、iPaste、iTimer的作者](http://atjason.com)
 
 ## 文章链接
+
+【设计模式相关】：
+
+- [小光的开店之路--设计模式](https://juejin.im/collection/582c32161e35c9488c282deb)
+- [简单工厂、工厂方法、抽象工厂三种工厂设计模式的区别](https://www.cnblogs.com/qiaoconglovelife/p/5750290.html)
+
+【框架相关】：
 
 - [依赖注入和控制反转的理解](http://blog.csdn.net/bestone0213/article/details/47424255)
 - [关于微服务的文章](http://blog.cuicc.com/blog/2015/07/22/microservices/)：翻译自Martin Fowler的 microservices。
 - [Spring Boot 日志配置详解](https://blog.csdn.net/inke88/article/details/75007649) 
+- [Spring Boot2.x cache整合redis，包含了和1.5.x的不同配置](https://blog.csdn.net/sy793314598/article/details/80719224)
