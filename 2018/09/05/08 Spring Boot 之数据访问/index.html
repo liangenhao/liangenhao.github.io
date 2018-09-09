@@ -86,18 +86,18 @@
 
 
 
-<meta name="description" content="Spring Boot的文件上传，常使用MultipartFile类，该类源自SpringMVC。 一、【文件上传三要素】：  表单提交方式：method=&amp;quot;post&amp;quot;。 表单类型：enctype=&amp;quot;multipart/form-data&amp;quot;。 表单项中有一个或者多个的file类型。">
+<meta name="description" content="1 整合 JDBC使用JDBC需要导入：spring-boot-starter-jdbc和数据库驱动依赖。 一、【数据库连接配置】： 访问数据库，只需要在application.properties/application.yml中配置： 123456spring:    datasource:    username: root    password: root    url: jdbc:my">
 <meta name="keywords" content="Spring Boot">
 <meta property="og:type" content="article">
-<meta property="og:title" content="06 Spring Boot 之文件上传">
-<meta property="og:url" content="http://yoursite.com/2018/09/03/06 Spring-Boot 之文件上传/index.html">
+<meta property="og:title" content="08 Spring Boot 之数据访问">
+<meta property="og:url" content="http://yoursite.com/2018/09/05/08 Spring Boot 之数据访问/index.html">
 <meta property="og:site_name" content="enhao&#39;s Notebook">
-<meta property="og:description" content="Spring Boot的文件上传，常使用MultipartFile类，该类源自SpringMVC。 一、【文件上传三要素】：  表单提交方式：method=&amp;quot;post&amp;quot;。 表单类型：enctype=&amp;quot;multipart/form-data&amp;quot;。 表单项中有一个或者多个的file类型。">
+<meta property="og:description" content="1 整合 JDBC使用JDBC需要导入：spring-boot-starter-jdbc和数据库驱动依赖。 一、【数据库连接配置】： 访问数据库，只需要在application.properties/application.yml中配置： 123456spring:    datasource:    username: root    password: root    url: jdbc:my">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-01T08:37:19.686Z">
+<meta property="og:updated_time" content="2018-09-02T08:16:39.824Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="06 Spring Boot 之文件上传">
-<meta name="twitter:description" content="Spring Boot的文件上传，常使用MultipartFile类，该类源自SpringMVC。 一、【文件上传三要素】：  表单提交方式：method=&amp;quot;post&amp;quot;。 表单类型：enctype=&amp;quot;multipart/form-data&amp;quot;。 表单项中有一个或者多个的file类型。">
+<meta name="twitter:title" content="08 Spring Boot 之数据访问">
+<meta name="twitter:description" content="1 整合 JDBC使用JDBC需要导入：spring-boot-starter-jdbc和数据库驱动依赖。 一、【数据库连接配置】： 访问数据库，只需要在application.properties/application.yml中配置： 123456spring:    datasource:    username: root    password: root    url: jdbc:my">
 
 
 
@@ -127,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/09/03/06 Spring-Boot 之文件上传/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/09/05/08 Spring Boot 之数据访问/"/>
 
 
 
 
 
-  <title>06 Spring Boot 之文件上传 | enhao's Notebook</title>
+  <title>08 Spring Boot 之数据访问 | enhao's Notebook</title>
   
 
 
@@ -314,7 +314,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/03/06 Spring-Boot 之文件上传/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/05/08 Spring Boot 之数据访问/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="梁恩浩">
@@ -331,7 +331,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">06 Spring Boot 之文件上传</h1>
+          <h1 class="post-title" itemprop="name headline">08 Spring Boot 之数据访问</h1>
         
 
         <div class="post-meta">
@@ -343,8 +343,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-03T00:00:00+08:00">
-                2018-09-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-05T00:00:00+08:00">
+                2018-09-05
               </time>
             
 
@@ -384,8 +384,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/09/03/06 Spring-Boot 之文件上传/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/09/03/06 Spring-Boot 之文件上传/" itemprop="commentCount"></span>
+                <a href="/2018/09/05/08 Spring Boot 之数据访问/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/09/05/08 Spring Boot 之数据访问/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -393,7 +393,7 @@
 
           
           
-             <span id="/2018/09/03/06 Spring-Boot 之文件上传/" class="leancloud_visitors" data-flag-title="06 Spring Boot 之文件上传">
+             <span id="/2018/09/05/08 Spring Boot 之数据访问/" class="leancloud_visitors" data-flag-title="08 Spring Boot 之数据访问">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -423,7 +423,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  609
+                  1,147
                 </span>
               
 
@@ -439,7 +439,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  3
+                  5
                 </span>
               
             </div>
@@ -460,41 +460,86 @@
       
 
       
-        <p>Spring Boot的文件上传，常使用<code>MultipartFile</code>类，该类源自SpringMVC。</p>
-<p>一、【文件上传三要素】：</p>
-<ol>
-<li>表单提交方式：<code>method=&quot;post&quot;</code>。</li>
-<li>表单类型：<code>enctype=&quot;multipart/form-data&quot;</code>。</li>
-<li>表单项中有一个或者多个的<code>file</code>类型。</li>
-</ol>
+        <h2 id="1-整合-JDBC"><a href="#1-整合-JDBC" class="headerlink" title="1 整合 JDBC"></a>1 整合 JDBC</h2><p>使用JDBC需要导入：<code>spring-boot-starter-jdbc</code>和数据库驱动依赖。</p>
+<p>一、【数据库连接配置】：</p>
+<p>访问数据库，只需要在<code>application.properties</code>/<code>application.yml</code>中配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">    datasource:</span></span><br><span class="line"><span class="attr">    username:</span> <span class="string">root</span></span><br><span class="line"><span class="attr">    password:</span> <span class="string">root</span></span><br><span class="line"><span class="attr">    url:</span> <span class="attr">jdbc:mysql://127.0.0.1:3306/jdbc</span></span><br><span class="line">    <span class="string">driver‐class‐name:</span> <span class="string">com.mysql.jdbc.Driver</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>数据源相关配置参考：<code>DataSourceProperties</code>。</p>
+</blockquote>
 <a id="more"></a>
-<p>二、【编写HTML页面】：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">action</span>=<span class="string">"/upload"</span>&gt;</span></span><br><span class="line">    文件:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"head_img"</span>/&gt;</span></span><br><span class="line">    姓名:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"name"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"上传"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>三、【编写Controller】：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"upload"</span>)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> JsonData <span class="title">upload</span><span class="params">(@RequestParam(<span class="string">"head_img"</span>)</span> MultipartFile file,HttpServletRequest request) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//file.isEmpty(); 判断图片是否为空</span></span><br><span class="line">    <span class="comment">//file.getSize(); 图片大小进行判断</span></span><br><span class="line"></span><br><span class="line">    String name = request.getParameter(<span class="string">"name"</span>);</span><br><span class="line">    System.out.println(<span class="string">"用户名："</span>+name);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取文件名</span></span><br><span class="line">    String fileName = file.getOriginalFilename();	        </span><br><span class="line">    System.out.println(<span class="string">"上传的文件名为："</span> + fileName);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取文件的后缀名,比如图片的jpeg,png</span></span><br><span class="line">    String suffixName = fileName.substring(fileName.lastIndexOf(<span class="string">"."</span>));</span><br><span class="line">    System.out.println(<span class="string">"上传的后缀名为："</span> + suffixName);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 文件上传后的路径</span></span><br><span class="line">    fileName = UUID.randomUUID() + suffixName;</span><br><span class="line">    System.out.println(<span class="string">"转换后的名称:"</span>+fileName);</span><br><span class="line"></span><br><span class="line">    File dest = <span class="keyword">new</span> File(filePath + fileName);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        file.transferTo(dest);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> JsonData(<span class="number">0</span>, fileName);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IllegalStateException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span>  <span class="keyword">new</span> JsonData(-<span class="number">1</span>, <span class="string">"fail to save "</span>, <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>二、【自动配置原理】：</p>
+<p>1、<code>DataSourceConfiguration</code>根据配置创建数据源，默认使用Hikari连接池。可以使用<code>spring.datasource.type</code>指定自定义的数据源类型。</p>
 <blockquote>
-<p><code>MultipartFile</code>对象的<code>transferTo</code>方法，用于文件保存，效率和操作比原先使用<code>fileOutStream</code>方便和高效。</p>
-</blockquote>
-<p>四、【Spring Boot 对上传文件大小的配置】：</p>
-<p>Spring Boot 默认对上传文件的大小限制是：每个文件的配置最大为1Mb，单次请求的文件的总数不能大于10Mb 。</p>
-<p>配置上传文件大小有两种方式：</p>
-<p>1、方式一：配置文件配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spring.servlet.multipart.max-file-size=30Mb  </span><br><span class="line">spring.servlet.multipart.max-request-size=30Mb</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>需要注意的是，如果是Spring Boot 1.5.x的配置是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; spring.http.multipart.max-file-size=30Mb  </span><br><span class="line">&gt; spring.http.multipart.max-request-size=30Mb</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+<p>Spring Boot 1.5.x 的默认数据源是Tomcat数据源连接池。Spring Boot 2.x改成了Hikari。</p>
 </blockquote>
 <blockquote>
+<p>Spring Boot 默认支持<code>tomcat.jdbc.pool.DataSource</code>、<code>HikariDataSource</code>、<code>dbcp.BaseDataSource</code>和自定义数据源。</p>
 </blockquote>
-<p>2、方式二：注入Bean：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span>  </span><br><span class="line"><span class="function"><span class="keyword">public</span> MultipartConfigElement <span class="title">multipartConfigElement</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">    MultipartConfigFactory factory = <span class="keyword">new</span> MultipartConfigFactory();  </span><br><span class="line">    <span class="comment">//单个文件最大  </span></span><br><span class="line">    factory.setMaxFileSize(<span class="string">"10240KB"</span>); <span class="comment">//KB,MB  </span></span><br><span class="line">    <span class="comment">/// 设置总上传数据总大小  </span></span><br><span class="line">    factory.setMaxRequestSize(<span class="string">"1024000KB"</span>);  </span><br><span class="line">    <span class="keyword">return</span> factory.createMultipartConfig();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>五、【自定义文件上传路径】：</p>
-<p>在配置文件中，自定义文件需要上传的路径：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">web.images-path=/Users/enhao/Desktop</span><br><span class="line">spring.resources.static-locations=classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:/test/,file:$&#123;web.upload-path&#125;</span><br></pre></td></tr></table></figure>
+<p>2、<code>DataSourceAutoConfiguration</code>中有一个<code>DataSourceInitializer</code>，是一个<code>ApplicationListener</code>。</p>
+<p>作用：1）运行建表语句。2）、运行插入数据的语句。</p>
 <blockquote>
-<p>上传路径的key可以自定义。然后将其添加到静态资源路径下（static-locations），这样可以直接访问到。</p>
-<p>然后程序中直接引用配置文件中的路径即可。</p>
+<p>默认文件名称规则：建表sql：<code>schema-*.sql</code>。数据sql：<code>data-*.sql</code>。</p>
+<p>如果自定义sql文件名：可以使用<code>spring.datasource.schema</code>来指定文件（可以指定多个）。</p>
 </blockquote>
+<p>3、自动配置<code>JdbcTemplate</code>用来操作数据库。</p>
+<h2 id="2-使用自定义数据源：druid"><a href="#2-使用自定义数据源：druid" class="headerlink" title="2 使用自定义数据源：druid"></a>2 使用自定义数据源：druid</h2><p>一、【引入druid数据源依赖】：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>druid<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.8<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>二、【指定数据源的类型】：</p>
+<p>使用<code>spring.datasource.type</code>来制定数据源的类型。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">	<span class="attr">datasource:</span></span><br><span class="line">		<span class="attr">type:</span> <span class="string">com.alibaba.druid.pool.DruidDataSource</span></span><br></pre></td></tr></table></figure>
+<p>三、【druid配置】：</p>
+<p>通过一、二两步的操作，数据源已经切换到druid了，但如果需要对druid连接池做一些配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  datasource:</span></span><br><span class="line"><span class="attr">    username:</span> <span class="string">root</span></span><br><span class="line"><span class="attr">    password:</span> <span class="number">123456</span></span><br><span class="line"><span class="attr">    url:</span> <span class="attr">jdbc:mysql://192.168.15.22:3306/jdbc</span></span><br><span class="line"><span class="attr">    driver-class-name:</span> <span class="string">com.mysql.jdbc.Driver</span></span><br><span class="line"><span class="attr">    type:</span> <span class="string">com.alibaba.druid.pool.DruidDataSource</span></span><br><span class="line">	<span class="comment"># druid配置</span></span><br><span class="line"><span class="attr">    initialSize:</span> <span class="number">5</span></span><br><span class="line"><span class="attr">    minIdle:</span> <span class="number">5</span></span><br><span class="line"><span class="attr">    maxActive:</span> <span class="number">20</span></span><br><span class="line"><span class="attr">    maxWait:</span> <span class="number">60000</span></span><br><span class="line"><span class="attr">    timeBetweenEvictionRunsMillis:</span> <span class="number">60000</span></span><br><span class="line"><span class="attr">    minEvictableIdleTimeMillis:</span> <span class="number">300000</span></span><br><span class="line"><span class="attr">    validationQuery:</span> <span class="string">SELECT</span> <span class="number">1</span> <span class="string">FROM</span> <span class="string">DUAL</span></span><br><span class="line"><span class="attr">    testWhileIdle:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    testOnBorrow:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">    testOnReturn:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">    poolPreparedStatements:</span> <span class="literal">true</span></span><br><span class="line">	<span class="comment"># 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙</span></span><br><span class="line"><span class="attr">    filters:</span> <span class="string">stat,wall,log4j</span></span><br><span class="line"><span class="attr">    maxPoolPreparedStatementPerConnectionSize:</span> <span class="number">20</span></span><br><span class="line"><span class="attr">    useGlobalDataSourceStat:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    connectionProperties:</span> <span class="string">druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500</span></span><br></pre></td></tr></table></figure>
+<p>以上druid配置直接写在配置文件里是不生效的。需要通过配置类，将这个配置想和<code>DataSource</code>绑定。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DruidConfig</span> </span>&#123;</span><br><span class="line">	<span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"spring.datasource"</span>)</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DataSource <span class="title">druid</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> DruidDataSource();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用<code>@ConfigurationProperties(prefix = &quot;spring.datasource&quot;)</code>将以<code>spring.datasource</code>为前缀的配置想和<code>DruidDataSource</code>绑定。</p>
+</blockquote>
+<p>四、【配置druid的监控】：</p>
+<p>1、配置一个管理后台的<code>Servlet</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ServletRegistrationBean <span class="title">statViewServlet</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ServletRegistrationBean bean = <span class="keyword">new</span> ServletRegistrationBean(<span class="keyword">new</span> StatViewServlet(),<span class="string">"/druid/*"</span>);</span><br><span class="line">    Map&lt;String,String&gt; initParams = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    initParams.put(<span class="string">"loginUsername"</span>,<span class="string">"admin"</span>);</span><br><span class="line">    initParams.put(<span class="string">"loginPassword"</span>,<span class="string">"123456"</span>);</span><br><span class="line">    initParams.put(<span class="string">"allow"</span>,<span class="string">""</span>);<span class="comment">//默认就是允许所有访问</span></span><br><span class="line">    initParams.put(<span class="string">"deny"</span>,<span class="string">"192.168.15.21"</span>);</span><br><span class="line">    bean.setInitParameters(initParams);</span><br><span class="line">    <span class="keyword">return</span> bean;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、配置一个监控的<code>filter</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> FilterRegistrationBean <span class="title">webStatFilter</span><span class="params">()</span></span>&#123;</span><br><span class="line">    FilterRegistrationBean bean = <span class="keyword">new</span> FilterRegistrationBean();</span><br><span class="line">    bean.setFilter(<span class="keyword">new</span> WebStatFilter());</span><br><span class="line">    Map&lt;String,String&gt; initParams = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    initParams.put(<span class="string">"exclusions"</span>,<span class="string">"*.js,*.css,/druid/*"</span>);</span><br><span class="line">    bean.setInitParameters(initParams);</span><br><span class="line">    bean.setUrlPatterns(Arrays.asList(<span class="string">"/*"</span>));</span><br><span class="line">    <span class="keyword">return</span> bean;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3-整合-Mybatis"><a href="#3-整合-Mybatis" class="headerlink" title="3 整合 Mybatis"></a>3 整合 Mybatis</h2><p>需要引入<code>mybatis-spring-boot-starter</code>依赖和数据库驱动依赖。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.3.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>runtime<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-1-注解版"><a href="#3-1-注解版" class="headerlink" title="3.1 注解版"></a>3.1 注解版</h3><p>一、【常用注解】：</p>
+<p><code>@Mapper</code>：标注该类是操作数据库的mapper类。</p>
+<p><code>@MapperScan</code>：Mapper类的包扫描。</p>
+<p><code>@Select</code>：查询。</p>
+<p><code>@Delete</code>：删除。</p>
+<p><code>@Insert</code>：插入。</p>
+<p><code>@Update</code>：更新。</p>
+<p><code>@Options</code>：能够设置缓存时间，能够为对象生成自增的主键值 </p>
+<p>二、【自定义mybatis配置规则】：</p>
+<p>给容器添加一个<code>ConfigurationCustomizer</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@org</span>.springframework.context.annotation.Configuration</span><br><span class="line"><span class="meta">@MapperScan</span>(value = <span class="string">"com.enhao.springboot.mapper"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBatisConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ConfigurationCustomizer <span class="title">configurationCustomizer</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConfigurationCustomizer()&#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">customize</span><span class="params">(Configuration configuration)</span> </span>&#123;</span><br><span class="line">                <span class="comment">// 开启下划线转驼峰</span></span><br><span class="line">            	configuration.setMapUnderscoreToCamelCase(<span class="keyword">true</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>可以使用<code>@MapperScan</code>批量扫描所有的Mapper接口。就不用在每个mapper接口上加<code>@Mapper</code>注解。</p>
+</blockquote>
+<p>【小技巧】：</p>
+<ol>
+<li><p>增加控制台打印sql语句：</p>
+<p>在<code>application.properties</code>/<code>application.yml</code>配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mybatis.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="3-2-配置文件版"><a href="#3-2-配置文件版" class="headerlink" title="3.2 配置文件版"></a>3.2 配置文件版</h3><p>一、【指定配置文件位置】：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mybatis:</span></span><br><span class="line">	<span class="attr">config-location:</span> <span class="attr">classpath:</span> <span class="string">mybatis/mybatis-config.xml</span></span><br><span class="line">	<span class="attr">mapper-locations:</span> <span class="attr">classpath:</span> <span class="string">mybatis/mapper/*.xml</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>mybatis.config-location</code>指定全局配置文件。</p>
+<p><code>mybatis.mapper-locations</code>指定mapper映射文件的位置。</p>
+</blockquote>
+<h2 id="4-整合-JPA"><a href="#4-整合-JPA" class="headerlink" title="4 整合 JPA"></a>4 整合 JPA</h2><p>需要引入<code>spring-boot-starter-data-jpa</code>和依赖和数据库驱动依赖。</p>
+<p>一、【对JPA的配置】：</p>
+<p>使用<code>spring.jpa</code>对JPA进行配置。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">	<span class="attr">jpa:</span></span><br><span class="line">		<span class="attr">hibernate:</span></span><br><span class="line">			<span class="attr">ddl-auto:</span> <span class="string">update</span> <span class="comment"># 数据表的生成策略</span></span><br><span class="line">			<span class="attr">show-sql:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>所有关于JPA的配置，在<code>JPAProperties</code>中。</p>
+</blockquote>
+<p>二、【编写模型和DAO接口】：</p>
+<p>模型采用JPA规范的注解进行标注。</p>
+<p>编写DAO接口，继承 <code>JPARepository</code>接口，就有了增删改查和分页排序的功能，不需要实现类。</p>
 
       
     </div>
@@ -535,8 +580,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/02/05 Spring Boot 之web开发/" rel="next" title="05 Spring Boot 之web开发">
-                <i class="fa fa-chevron-left"></i> 05 Spring Boot 之web开发
+              <a href="/2018/09/04/07 Spring Boot 之Docker/" rel="next" title="07 Spring Boot 之Docker">
+                <i class="fa fa-chevron-left"></i> 07 Spring Boot 之Docker
               </a>
             
           </div>
@@ -545,8 +590,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/09/04/07 Spring Boot 之Docker/" rel="prev" title="07 Spring Boot 之Docker">
-                07 Spring Boot 之Docker <i class="fa fa-chevron-right"></i>
+              <a href="/2018/09/06/09 Spring Boot 之缓存/" rel="prev" title="09 Spring Boot 之缓存">
+                09 Spring Boot 之缓存 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -602,8 +647,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -679,6 +733,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-整合-JDBC"><span class="nav-number">1.</span> <span class="nav-text">1 整合 JDBC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-使用自定义数据源：druid"><span class="nav-number">2.</span> <span class="nav-text">2 使用自定义数据源：druid</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-整合-Mybatis"><span class="nav-number">3.</span> <span class="nav-text">3 整合 Mybatis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-注解版"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 注解版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-配置文件版"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 配置文件版</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-整合-JPA"><span class="nav-number">4.</span> <span class="nav-text">4 整合 JPA</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
