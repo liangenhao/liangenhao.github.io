@@ -6,8 +6,16 @@ date: 2018-06-17 23:09:00
 ## 博客链接
 
 - [Klib、iPic、iText、iHosts、iPaste、iTimer的作者](http://atjason.com)
+- [小马哥的技术博客](https://mercyblitz.github.io/)
 
 ## 文章链接
+
+【Java相关】：
+
+- [Java 8系列之重新认识HashMap](https://zhuanlan.zhihu.com/p/21673805)
+- [HashMap中的resize以及死链的情况](https://www.cnblogs.com/wang-meng/p/7582532.html)
+- [对String中intern()方法的认识](https://blog.csdn.net/believesoul/article/details/79588305)
+- [你真的了解String类的intern()方法吗](https://blog.csdn.net/seu_calvin/article/details/52291082)
 
 【设计模式相关】：
 
@@ -28,3 +36,7 @@ date: 2018-06-17 23:09:00
 - [ECMAScript 6 入门 - 阮一峰](https://wangdoc.com/javascript/)
 - [JavaScript数据类型隐式转换原则总结](https://blog.csdn.net/siboogi/article/details/53669567)
 - 
+
+【测试相关】：
+
+- [代码覆盖率浅谈](https://www.cnblogs.com/coderzh/archive/2009/03/29/1424344.html)
