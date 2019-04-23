@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Effective Java," />
 
 
 
@@ -86,17 +86,18 @@
 
 
 
-<meta name="description" content="从常州到南京，从常信到金科，从物联网工程到计算机技术，五年，两个城市，两所学校，两种专业。从努力转本成功，再到遗憾的考研失败，成为了现在的 Java Developer。 2017年毕业，技术宅，重度强迫症患者，对能写出优雅的代码有着很深的执念。 喜欢折腾、研究新的技术。 一份博客，记录我的成长。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="about">
-<meta property="og:url" content="http://yoursite.com/about/index.html">
+<meta name="description" content="Item 1:考虑使用静态工厂方法替代构造方法 注意：这里的静态工厂方法static factory method和设计模式中的工厂方法模式Factory Method pattern不等价。  优点有方法名，便于用于阅读和理解更加语义化。 特别是有多个构造函数时，容易错误的调用。静态工厂方法有方法名，很容易辨识。 不必每次调用时都创建一个新对象 允许不可变的类immutable classes使">
+<meta name="keywords" content="Effective Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2.1-创建和销毁对象-考虑使用静态工厂方法替代构造方法">
+<meta property="og:url" content="http://yoursite.com/2019/04/23/2.1-创建和销毁对象-考虑使用静态工厂方法替代构造方法/index.html">
 <meta property="og:site_name" content="enhao&#39;s Notebook">
-<meta property="og:description" content="从常州到南京，从常信到金科，从物联网工程到计算机技术，五年，两个城市，两所学校，两种专业。从努力转本成功，再到遗憾的考研失败，成为了现在的 Java Developer。 2017年毕业，技术宅，重度强迫症患者，对能写出优雅的代码有着很深的执念。 喜欢折腾、研究新的技术。 一份博客，记录我的成长。">
+<meta property="og:description" content="Item 1:考虑使用静态工厂方法替代构造方法 注意：这里的静态工厂方法static factory method和设计模式中的工厂方法模式Factory Method pattern不等价。  优点有方法名，便于用于阅读和理解更加语义化。 特别是有多个构造函数时，容易错误的调用。静态工厂方法有方法名，很容易辨识。 不必每次调用时都创建一个新对象 允许不可变的类immutable classes使">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-11T06:40:12.327Z">
+<meta property="og:updated_time" content="2019-04-23T08:02:50.535Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="about">
-<meta name="twitter:description" content="从常州到南京，从常信到金科，从物联网工程到计算机技术，五年，两个城市，两所学校，两种专业。从努力转本成功，再到遗憾的考研失败，成为了现在的 Java Developer。 2017年毕业，技术宅，重度强迫症患者，对能写出优雅的代码有着很深的执念。 喜欢折腾、研究新的技术。 一份博客，记录我的成长。">
+<meta name="twitter:title" content="2.1-创建和销毁对象-考虑使用静态工厂方法替代构造方法">
+<meta name="twitter:description" content="Item 1:考虑使用静态工厂方法替代构造方法 注意：这里的静态工厂方法static factory method和设计模式中的工厂方法模式Factory Method pattern不等价。  优点有方法名，便于用于阅读和理解更加语义化。 特别是有多个构造函数时，容易错误的调用。静态工厂方法有方法名，很容易辨识。 不必每次调用时都创建一个新对象 允许不可变的类immutable classes使">
 
 
 
@@ -126,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/about/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/04/23/2.1-创建和销毁对象-考虑使用静态工厂方法替代构造方法/"/>
 
 
 
 
 
-  <title>about | enhao's Notebook</title>
+  <title>2.1-创建和销毁对象-考虑使用静态工厂方法替代构造方法 | enhao's Notebook</title>
   
 
 
@@ -301,39 +302,284 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/23/2.1-创建和销毁对象-考虑使用静态工厂方法替代构造方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="梁恩浩">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="enhao's Notebook">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">about</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <ul>
-<li>从常州到南京，从常信到金科，从物联网工程到计算机技术，五年，两个城市，两所学校，两种专业。从努力转本成功，再到遗憾的考研失败，成为了现在的 Java Developer。</li>
-<li>2017年毕业，技术宅，重度强迫症患者，对能写出优雅的代码有着很深的执念。</li>
-<li>喜欢折腾、研究新的技术。</li>
-<li>一份博客，记录我的成长。</li>
+          <h1 class="post-title" itemprop="name headline">2.1-创建和销毁对象-考虑使用静态工厂方法替代构造方法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-23T00:00:00+08:00">
+                2019-04-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/23/2.1-创建和销毁对象-考虑使用静态工厂方法替代构造方法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/23/2.1-创建和销毁对象-考虑使用静态工厂方法替代构造方法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/04/23/2.1-创建和销毁对象-考虑使用静态工厂方法替代构造方法/" class="leancloud_visitors" data-flag-title="2.1-创建和销毁对象-考虑使用静态工厂方法替代构造方法">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 阅读次数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  781
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  3
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Item-1-考虑使用静态工厂方法替代构造方法"><a href="#Item-1-考虑使用静态工厂方法替代构造方法" class="headerlink" title="Item 1:考虑使用静态工厂方法替代构造方法"></a>Item 1:考虑使用静态工厂方法替代构造方法</h2><blockquote>
+<p>注意：这里的静态工厂方法<code>static factory method</code>和设计模式中的工厂方法模式<code>Factory Method pattern</code>不等价。</p>
+</blockquote>
+<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><h4 id="有方法名，便于用于阅读和理解"><a href="#有方法名，便于用于阅读和理解" class="headerlink" title="有方法名，便于用于阅读和理解"></a>有方法名，便于用于阅读和理解</h4><p>更加语义化。</p>
+<p>特别是有多个构造函数时，容易错误的调用。静态工厂方法有方法名，很容易辨识。</p>
+<h4 id="不必每次调用时都创建一个新对象"><a href="#不必每次调用时都创建一个新对象" class="headerlink" title="不必每次调用时都创建一个新对象"></a>不必每次调用时都创建一个新对象</h4><ol>
+<li><p>允许<strong>不可变的类<code>immutable classes</code>使用预先构建</strong>的实例。</p>
+</li>
+<li><p>构造时缓存实例，避免创建不必要的重复对象。</p>
+<blockquote>
+<p>可以提高性能，尤其是那种创建他们非常昂贵的情况(耗性能)下。</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="与构造方法不同，可以返回原类型的子类对象"><a href="#与构造方法不同，可以返回原类型的子类对象" class="headerlink" title="与构造方法不同，可以返回原类型的子类对象"></a>与构造方法不同，可以返回原类型的子类对象</h4><p>这个子类可以是隐藏的，即非公开的内部类或包私有类。</p>
+<p>例子：<code>java.util.Collections</code>里有很多内部的集合。</p>
+<h4 id="返回对象所属类可以根据输入参数变化而变化"><a href="#返回对象所属类可以根据输入参数变化而变化" class="headerlink" title="返回对象所属类可以根据输入参数变化而变化"></a>返回对象所属类可以根据输入参数变化而变化</h4><p>举例：<code>EnumSet</code>类的静态工厂方法<code>noneOf</code>方法。如果大多数枚举类型具有64个或更少的元素，静态工厂将返回一个<code>RegularEnumSet</code>实例， 返回一个<code>long</code>类型；如果枚举类型具有六十五个或更多元素，则工厂将返回一个<code>JumboEnumSet</code>实例，返回一个<code>long</code>类型的数组。</p>
+<p>这两个实现类的存在对于客户是不可见的。</p>
+<h4 id="返回对象所属类在编写含该静态工厂方法的类时可以不必存在"><a href="#返回对象所属类在编写含该静态工厂方法的类时可以不必存在" class="headerlink" title="返回对象所属类在编写含该静态工厂方法的类时可以不必存在"></a>返回对象所属类在编写含该静态工厂方法的类时可以不必存在</h4><p>SPI。静态构造方法返回的是该子类对象，但接受的是接口。</p>
+<p>举例：<code>JDBC</code></p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><h4 id="只提供静态工厂方法，则没有public-protected构造方法的类不能被子类化"><a href="#只提供静态工厂方法，则没有public-protected构造方法的类不能被子类化" class="headerlink" title="只提供静态工厂方法，则没有public/protected构造方法的类不能被子类化"></a>只提供静态工厂方法，则没有public/protected构造方法的类不能被子类化</h4><p>通过继承创建子类。由于子类的构造中要调用父类的构造。因此父类没有public/protected的构造方法则无法子类化。</p>
+<p>可以通过组合实现。</p>
+<h4 id="很难让开发者找到"><a href="#很难让开发者找到" class="headerlink" title="很难让开发者找到"></a>很难让开发者找到</h4><p>不能像构造方法那么突出。可以通过Javadoc标注。</p>
+<h3 id="静态工厂方法常用命名"><a href="#静态工厂方法常用命名" class="headerlink" title="静态工厂方法常用命名"></a>静态工厂方法常用命名</h3><ul>
+<li><p><code>from</code>：类型转换方法。接受单个参数并返回此类型的相应实例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Date d = Date.from(instant);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>of</code>：聚合方法，接受多个参数并返回该类型的实例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set&lt;Rank&gt; faceCards = EnumSet.of(JACK, QUEEN, KING)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>valueOf</code>：<code>from</code>和<code>of</code>更为详细的替代方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BigInteger prime = BigInteger.valueOf(Integer.MAX_VALUE);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>instance</code>或者<code>getInstance</code>：返回一个由其参数(如果有的话)描述的实例，但不能说它具有相同的值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">StackWalker luke = StackWalker.getInstance(options);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>create</code>或者<code>newInstance</code>：与<code>instance</code> 或 <code>getInstance</code>类似，除了该方法保证每个调用<strong>返回一个新的实例</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Object newArray = Array.newInstance(classObject, arrayLen);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>区别：<code>create</code>或者<code>newInstance</code>每次调用都返回新的实例。<code>instance</code>或者<code>getInstance</code>不一定。</p>
+</blockquote>
+</li>
+<li><p><code>getType</code>：和<code>getInstance</code>类似，<strong>在工厂方法处于不同的类中的时候使用。</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FileStore fs = Files.getFileStore(path);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>newType</code>：和<code>newInstance</code>类似，<strong>在工厂方法处于不同的类中的时候使用。</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BufferedReader br = Files.newBufferedReader(path);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>type</code>：<code>getType</code> 和 <code>newType</code>简洁的替代方式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Complaint&gt; litany = Collections.list(legacyLitany);</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 
-        
-      </div>
-      
-      
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Effective-Java/" rel="tag"><i class="fa fa-tag"></i> Effective Java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/23/2.2-创建和销毁对象-当构造参数太多时考虑使用builder模式/" rel="next" title="2.2-创建和销毁对象-当构造参数太多时考虑使用builder模式">
+                <i class="fa fa-chevron-left"></i> 2.2-创建和销毁对象-当构造参数太多时考虑使用builder模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -369,8 +615,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -446,6 +701,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Item-1-考虑使用静态工厂方法替代构造方法"><span class="nav-number">1.</span> <span class="nav-text">Item 1:考虑使用静态工厂方法替代构造方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点"><span class="nav-number">1.1.</span> <span class="nav-text">优点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#有方法名，便于用于阅读和理解"><span class="nav-number">1.1.1.</span> <span class="nav-text">有方法名，便于用于阅读和理解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#不必每次调用时都创建一个新对象"><span class="nav-number">1.1.2.</span> <span class="nav-text">不必每次调用时都创建一个新对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#与构造方法不同，可以返回原类型的子类对象"><span class="nav-number">1.1.3.</span> <span class="nav-text">与构造方法不同，可以返回原类型的子类对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#返回对象所属类可以根据输入参数变化而变化"><span class="nav-number">1.1.4.</span> <span class="nav-text">返回对象所属类可以根据输入参数变化而变化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#返回对象所属类在编写含该静态工厂方法的类时可以不必存在"><span class="nav-number">1.1.5.</span> <span class="nav-text">返回对象所属类在编写含该静态工厂方法的类时可以不必存在</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">1.2.</span> <span class="nav-text">缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#只提供静态工厂方法，则没有public-protected构造方法的类不能被子类化"><span class="nav-number">1.2.1.</span> <span class="nav-text">只提供静态工厂方法，则没有public/protected构造方法的类不能被子类化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#很难让开发者找到"><span class="nav-number">1.2.2.</span> <span class="nav-text">很难让开发者找到</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态工厂方法常用命名"><span class="nav-number">1.3.</span> <span class="nav-text">静态工厂方法常用命名</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
